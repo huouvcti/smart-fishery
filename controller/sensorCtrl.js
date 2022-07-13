@@ -1,12 +1,16 @@
 "use strict"
 
+const sensorDAO = require('../model/sensorDAO');
+
 const main = async (req, res) => {
+   
     if(req.session.user_key){
         const parameters = {
             user_key: req.session.user_key,
             url: process.env.HOST + ":" + process.env.S_PORT
         }
-        res.render('../views/sensor', {parameters})
+        
+        res.render('../views/sensor', {parameters});
     } else{
         res.send("<script>alert(`로그인페이지로 이동`); location.href='/login';</script>");
     }
@@ -18,6 +22,9 @@ const send = async (req, res) => {
             user_key: req.session.user_key,
             url: process.env.HOST + ":" + process.env.S_PORT
         }
+
+        
+
         res.render('../views/sensorSend', {parameters})
     } else{
         res.send("<script>alert(`로그인페이지로 이동`); location.href='/login';</script>");

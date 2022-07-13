@@ -5,8 +5,6 @@ require('dotenv').config({ path: 'f.env'});
 const express = require('express');
 const app = express();
 
-
-
 const session = require('express-session');
 
 const {sessionStore} = require('./config/dbconn');
@@ -17,7 +15,8 @@ const main = require("./routes/main");
 const loginRouter = require("./routes/login");
 const sensorRouter = require("./routes/sensor");
 
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -25,8 +24,7 @@ app.set('view engine', 'ejs');
 
 app.use('/public', express.static(__dirname +'/public'));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
 
 
 

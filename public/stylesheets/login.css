@@ -1,0 +1,49 @@
+body{
+    background-color: #166caa;
+}
+
+#formBox {
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: white;
+    border-radius: 2%;
+    margin-top: 7.5%;
+    margin-left: 35%;
+    margin-right: 35%;
+    padding: 5%;
+}
+
+#formBox h1{
+    text-align: center;
+    margin-bottom: 22%;
+    font-size: 210%;
+}
+
+.input_textField{
+    width: 90%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+    padding-top: 2%;
+    padding-bottom: 3%;
+    font-size: 120%;
+    margin-left: 5%;
+    margin-bottom: 10%;
+}
+
+.login_btn{
+    display: inline-block;
+    width: 70%;
+    height: 40px;
+    margin: 4% 15%;
+    background-color: #1978bd;
+    color: #fff;
+    border-radius: 20px;
+    border: 0;
+    outline: 0;
+    font-size: 110%;
+    cursor: pointer;
+    /* margin-top: 4%; */
+}
