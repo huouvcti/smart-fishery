@@ -1,6 +1,6 @@
 "use strict"
 
-async function main(req, res, next) {
+const main = async (req, res) => {
 
     if(req.session.user_key){
         const user_info = {
@@ -12,6 +12,12 @@ async function main(req, res, next) {
     }
 }
 
+
+const test = async (req, res) => {
+    res.render('../views/socketTest');
+}
+
 module.exports = {
-    main
+    main,
+    test
 }

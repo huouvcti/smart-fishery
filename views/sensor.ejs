@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sensor page</title>
+</head>
+<body>
+    <h1>sensor page</h1>
+    <%= parameters.user_key %>
+    <h2 id="jo">공백</h2>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        
+        console.log("<%= parameters.url %>");
+        let url = "<%= parameters.url %>"+"/sensor";
+        const socket = io.connect(url, {
+            transports: ['websocket']
+        });
+        const user_key = "<%= parameters.user_key %>";
+        socket.emit('join', user_key);
+
+        // socket.emit('msg', "<%= parameters.user_key %>"+"조");
+
+        let j = {
+            wt: 30,
+            tt: 20,
+            dd: 10
+        }
+        socket.emit('msg', j);
+
+
+        socket.on('message', (data) => {
+            console.log(data);
+            document.getElementById('jo').innerText = data.wt;
+        });
+    </script>
+</body>
+</html>

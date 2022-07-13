@@ -1,7 +1,7 @@
 "use strict";
 
 const mysql = require('mysql');
-require('dotenv').config({ path: 'fishery.env'});
+require('dotenv').config({ path: 'f.env'});
 
 
 const session = require('express-session');

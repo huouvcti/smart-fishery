@@ -2,8 +2,12 @@
 
 const userDAO = require('../model/userDAO');
 
-const main = async (req, res) => {
-    res.render('../views/login.ejs');
+const login = async (req, res) => {
+    if(req.session.user_key){
+        res.send("<script>location.href='/';</script>");
+    } else{
+        res.render('../views/login.ejs');
+    }
 }
 
 const loginProcess = async (req, res) => {
@@ -33,7 +37,7 @@ const logout = async (req, res) => {
 }
 
 module.exports = {
-    main,
+    login,
     loginProcess,
     logout
 }

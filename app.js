@@ -1,9 +1,11 @@
 "use strict";
 
-require('dotenv').config({ path: 'fishery.env'});
+require('dotenv').config({ path: 'f.env'});
 
 const express = require('express');
 const app = express();
+
+
 
 const session = require('express-session');
 
@@ -13,6 +15,7 @@ const path = require('path');
 
 const main = require("./routes/main");
 const loginRouter = require("./routes/login");
+const sensorRouter = require("./routes/sensor");
 
 
 
@@ -32,8 +35,10 @@ app.use(session({
     secret: process.env.SECRET_KEY, // 암호화
     resave: false,                  // 세션을 언제자 저장
     saveUninitialized: true,        // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
-    store: sessionStore
-    
+    store: sessionStore,
+    cookie: {
+        maxAgeL: 1000 * 60 * 60
+    }
 }));
 
 
@@ -41,6 +46,8 @@ app.use(session({
 app.use("/", main);
 
 app.use("/login", loginRouter);
+
+app.use("/sensor", sensorRouter);
 
 
 

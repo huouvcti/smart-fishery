@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 const loginCtrl = require("../controller/loginCtrl");
 
-router.get("/", loginCtrl.main);
+router.get("/", loginCtrl.login);
 
 router.post("/process", loginCtrl.loginProcess);
 
