@@ -10,30 +10,12 @@
     <h1>sensor page</h1>
     <%= parameters.user_key %>
 
-    <input type="hidden">
-
-    <h3>PH</h3>
-    <ul class="sensor"></ul>
-
-    <h3>RTD</h3>
-    <ul class="sensor"></ul>
-
-    <h3>EC</h3>
-    <ul class="sensor"></ul>
-
-    <h3>DO</h3>
-    <ul class="sensor"></ul>
+    
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
     console.log("<%= parameters.url %>");
     let url = "<%= parameters.url %>"+"/sensor";
-
-    const sensor = document.getElementsByClassName("sensor");
-    let sensor_name = ["PH", "RTD", "EC", "DO"];
-
-    let sensor_li = sensor[0].children;
-
 
 
     const socket = io.connect(url, {
