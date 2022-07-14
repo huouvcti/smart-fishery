@@ -43,13 +43,20 @@ const socketio = (server) => {
         })
 
 
-        socket.on('sensor_send', async (data) =>{
-            sensorDAO.insert(data);
+        socket.on('sensor_send', async (data) =>{ 
+            const insert_db = await sensorDAO.insert(data)
+            const sensor_key = await insert_db.insertId
+            
             const parameters = {
-                user_key: room
+                sensor_key: sensor_key
             }
-            const db_data =  await sensorDAO.list(parameters);
-            sensor.in(room).emit('sensor_valueL', db_data);
+            const db_data =  await sensorDAO.update(parameters);
+            // sensor.in(room).emit('sensor_valueL', db_data);
+
+
+            console.log(db_data);
+
+            sensor.in(room).emit('sensor_update', db_data[0]);
         })
 
 

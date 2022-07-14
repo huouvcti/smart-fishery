@@ -4,19 +4,216 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>sensor page</title>
 </head>
 <body>
     <h1>sensor page</h1>
     <%= parameters.user_key %>
 
+    <hr>
+
+
+
+
+    <!-- 차트 view -->
+    <figure>
+      <div class="container-fluid">
+          <div class="row">
+              <div class="container-fluid" id="container_PH"></div>
+          </div>
+      </div>
+    </figure>
+
+    <figure>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container-fluid" id="container_RTD"></div>
+            </div>
+        </div>
+      </figure>
+
+      <figure>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container-fluid" id="container_EC"></div>
+            </div>
+        </div>
+      </figure>
+
+      <figure>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container-fluid" id="container_DO"></div>
+            </div>
+        </div>
+      </figure>
+    
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+<script>
+
+</script>
+    
     
 
+
+
+<!-- 차트 -->
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/series-label.js"></script>
+<script>
+    let chart_PH;
+    let chart_RTD;
+    let chart_EC;
+    let chart_DO;
+
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+    $(document).ready(function() {
+        chart_PH = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container_PH',
+                defaultSeriesType: 'spline',
+                events: {
+                    load: {
+                    }
+                }
+            },
+            title: {
+                text: 'PH'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,
+                // maxZoom: 20 * 1000
+                
+            },
+            yAxis: {
+                minPadding: 0.2,
+                maxPadding: 0.2,
+                title: {
+                    text: '',
+                    margin: 80
+                }
+            },
+            series: [{
+                animation: true,
+                name: 'PH',
+                data: []
+            }]
+        });
+
+        chart_RTD = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container_RTD',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'RTD'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,
+                // maxZoom: 20 * 1000
+                
+            },
+            yAxis: {
+                minPadding: 0.2,
+                maxPadding: 0.2,
+                title: {
+                    text: '',
+                    margin: 80
+                }
+            },
+            series: [{
+                animation: true,
+                name: 'RTD',
+                data: []
+            }]
+        });
+
+        chart_EC = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container_EC',
+                defaultSeriesType: 'spline',
+                events: {
+                    load: {
+                    }
+                }
+            },
+            title: {
+                text: 'EC'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,
+                // maxZoom: 20 * 1000
+                
+            },
+            yAxis: {
+                minPadding: 0.2,
+                maxPadding: 0.2,
+                title: {
+                    text: '',
+                    margin: 80
+                }
+            },
+            series: [{
+                animation: true,
+                name: 'EC',
+                data: []
+            }]
+        });
+
+        chart_DO = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container_DO',
+                defaultSeriesType: 'spline',
+                events: {
+                    load: {
+                    }
+                }
+            },
+            title: {
+                text: 'DO'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150,
+                // maxZoom: 20 * 1000
+                
+            },
+            yAxis: {
+                minPadding: 0.2,
+                maxPadding: 0.2,
+                title: {
+                    text: '',
+                    margin: 80
+                }
+            },
+            series: [{
+                animation: true,
+                name: 'DO',
+                data: []
+            }]
+        });
+    });
+</script>
+
+
+
+
+<!-- socket -->
 <script src="/socket.io/socket.io.js"></script>
 <script>
     console.log("<%= parameters.url %>");
     let url = "<%= parameters.url %>"+"/sensor";
 
+    let sensor_data;
 
     const socket = io.connect(url, {
         transports: ['websocket']
@@ -25,13 +222,52 @@
 
     socket.emit('join', user_key);
 
-    socket.on('sensor_valueL', (data) => {
-        console.log(data);
-        
-    })
+    // socket.on('sensor_valueL', (data) => {
+    //     sensor_data = data;
+    //     console.log(sensor_data[sensor_data.length-1]["PH"]);
+    //     let ddd = sensor_data[sensor_data.length-1]["PH"]
+    // })
 
+
+    socket.on('sensor_update', function (data) {
+        const date = new Date();
+        console.log(date);
+        // let series = chart1.series[0]
+        // let shif =  series.data.length > 5;
+
+        let shift = (chart_PH.series[0].data.length > 4);
+        console.log(shift);
+
+        chart_PH.series[0].addPoint({
+            x: date,
+            y: data["PH"],
+            color:"#000",
+        }, true, shift);
+        
+
+        chart_RTD.series[0].addPoint({
+            x: date,
+            y: data["RTD"],
+            color:"#FFE08C",
+            
+        }, true, shift);
+        chart_EC.series[0].addPoint({
+            x: date,
+            y: data["EC"],
+            color:"#FFE08C",
+            
+        }, true, shift);
+        chart_DO.series[0].addPoint({
+            x: date,
+            y: data["DO"],
+            color:"#FFE08C",
+            
+        }, true, shift);
+    })
 </script>
     
+
+
 
 </body>
 </html>

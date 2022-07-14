@@ -47,6 +47,14 @@ app.use("/login", loginRouter);
 
 app.use("/sensor", sensorRouter);
 
+app.use('/live_resource', (req, res) =>{
+    cpu = 1;
+    data = [time() * 1000, cpu]
+    
+
+    res.send(json.dumps(data))
+})
+
 
 
 
