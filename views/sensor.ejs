@@ -16,7 +16,12 @@
 </head>
 <body>
     <h1>sensor page</h1>
-    <%= parameters.user_key %>
+    <%= parameters.user_key+1 %>조 로그인 성공
+
+    <a href="/login/logout_process/<%= parameters.user_key %>">로그아웃</a>
+    <br>
+    <a href="/">메인</a>
+    <a href="/log">로그</a>
 
     <hr>
 

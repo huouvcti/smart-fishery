@@ -10,5 +10,8 @@ router.get("/", sensorCtrl.main);
 
 router.get("/send", sensorCtrl.send);
 
+// ?page=
+router.get("/log", sensorCtrl.log);
+
 
 module.exports = router;

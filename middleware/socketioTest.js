@@ -27,10 +27,7 @@ module.exports = (server) => {
         });
     
         //* 클라이언트로 메세지 보내기
-        socket.interval = setInterval(() => {
-            // 3초마다 클라이언트로 메시지 전송
-            socket.emit('news', 'Hello Socket.IO');
-        }, 1000);
+        
     });
 };
 
