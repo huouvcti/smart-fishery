@@ -32,31 +32,8 @@ const send = async (req, res) => {
 }
 
 
-const WT = async (req, res) => {
-    const user_key = req.session.user_key;
-
-    const io = req.app.get("io");
-}
-
-const DO = async (req, res) => {
-    
-}
-
-const PH = async (req, res) => {
-    
-}
-
-const SA = async (req, res) => {
-    
-}
-
 module.exports = {
     main,
-    send,
-
-    WT,
-    DO,
-    PH,
-    SA
+    send
 }
 
