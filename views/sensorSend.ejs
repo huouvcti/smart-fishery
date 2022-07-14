@@ -41,17 +41,7 @@
             }
             console.log(sensor);
             socket.emit('sensor_send', sensor);
-        }
-
-        
-        
-        
-
-        
-
-        // socket.emit('msg', "<%= parameters.user_key %>"+"조");
-        
-        
+        }      
 
         socket.on('message', (data) => {
             console.log(data);

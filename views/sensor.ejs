@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>sensor page</title>
+
+    <style>
+        figure {
+            display: inline-block;
+            width: 40%;
+        }
+    </style>
 </head>
 <body>
     <h1>sensor page</h1>
@@ -18,7 +25,7 @@
     <button class='ctrl' onClick="ctrl_btn(1)">히터</button>
     <button class='ctrl' onClick="ctrl_btn(2)">조명</button>
 
-
+    <br>
     <!-- 차트 view -->
     <figure>
       <div class="container-fluid">
@@ -67,7 +74,7 @@
             socket.emit('ctrl_on', type);
         } else{
             // off
-            ctrl_value[type] = false;
+            ctrl_value[type] = false;s
             btn.style.backgroundColor = '#f0f0f0';
             socket.emit('ctrl_off', type);
         }
