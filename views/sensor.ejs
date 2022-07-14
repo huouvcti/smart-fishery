@@ -13,7 +13,10 @@
 
     <hr>
 
-
+    <!-- 제어 버트 view -->
+    <button class='ctrl' onClick="ctrl_btn(0)">순환펌프</button>
+    <button class='ctrl' onClick="ctrl_btn(1)">히터</button>
+    <button class='ctrl' onClick="ctrl_btn(2)">조명</button>
 
 
     <!-- 차트 view -->
@@ -52,12 +55,25 @@
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
 <script>
-
+    let ctrl_value = [false, false, false];
+    function ctrl_btn(type){
+        console.log(document.getElementsByClassName("ctrl")[type]);
+        let btn = document.getElementsByClassName("ctrl")[type];
+        
+        if(ctrl_value[type] == false){
+            // on
+            ctrl_value[type] = true;
+            btn.style.backgroundColor = 'red';
+            socket.emit('ctrl_on', type);
+        } else{
+            // off
+            ctrl_value[type] = false;
+            btn.style.backgroundColor = '#f0f0f0';
+            socket.emit('ctrl_off', type);
+        }
+    }
 </script>
     
-    
-
-
 
 <!-- 차트 -->
 <script src="http://code.highcharts.com/highcharts.js"></script>
@@ -222,18 +238,11 @@
 
     socket.emit('join', user_key);
 
-    // socket.on('sensor_valueL', (data) => {
-    //     sensor_data = data;
-    //     console.log(sensor_data[sensor_data.length-1]["PH"]);
-    //     let ddd = sensor_data[sensor_data.length-1]["PH"]
-    // })
 
 
     socket.on('sensor_update', function (data) {
         const date = new Date();
         console.log(date);
-        // let series = chart1.series[0]
-        // let shif =  series.data.length > 5;
 
         let shift = (chart_PH.series[0].data.length > 4);
         console.log(shift);
