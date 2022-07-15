@@ -25,10 +25,11 @@
 
     <hr>
 
-    <!-- 제어 버트 view -->
+    <!-- 제어 버튼 view -->
     <button class='ctrl' onClick="ctrl_btn(0)">순환펌프</button>
     <button class='ctrl' onClick="ctrl_btn(1)">히터</button>
-    <button class='ctrl' onClick="ctrl_btn(2)">조명</button>
+    <button class='ctrl' onClick="ctrl_btn(2)">산소발생기</button>
+    <button class='ctrl' onClick="ctrl_btn(3)">LED 조명</button>
 
     <br>
     <!-- 차트 view -->
@@ -70,8 +71,9 @@
     
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
+<!-- 제어 버튼 -->
 <script>
-    let ctrl_value = [false, false, false];
+    let ctrl_value = [false, false, false, false];
     function ctrl_btn(type){
         console.log(document.getElementsByClassName("ctrl")[type]);
         let btn = document.getElementsByClassName("ctrl")[type];
