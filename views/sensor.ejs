@@ -37,6 +37,7 @@
           <div class="row">
               <div class="container-fluid" id="container_PH"></div>
           </div>
+          <p id="PH_last"></p>
       </div>
     </figure>
 
@@ -45,6 +46,7 @@
             <div class="row">
                 <div class="container-fluid" id="container_RTD"></div>
             </div>
+            <p id="RTD_last"></p>
         </div>
       </figure>
 
@@ -53,6 +55,7 @@
             <div class="row">
                 <div class="container-fluid" id="container_EC"></div>
             </div>
+            <p id="EC_last"></p>
         </div>
       </figure>
 
@@ -61,6 +64,7 @@
             <div class="row">
                 <div class="container-fluid" id="container_DO"></div>
             </div>
+            <p id="DO_last"></p>
         </div>
       </figure>
     
@@ -253,10 +257,14 @@
 
 
     socket.on('sensor_update', function (data) {
-        const date = new Date();
-        console.log(date);
+        document.getElementById("PH_last").innerText = data["PH"];
+        document.getElementById("RTD_last").innerText = data["RTD"];
+        document.getElementById("EC_last").innerText = data["EC"];
+        document.getElementById("DO_last").innerText = data["DO"];
 
+        const date = new Date();
         let shift = (chart_PH.series[0].data.length > 4);
+        console.log(date);
         console.log(shift);
 
         chart_PH.series[0].addPoint({

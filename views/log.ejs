@@ -8,9 +8,9 @@
 </head>
 <body>
     <h1>log page</h1>
-    <%= db_data[0]["user_key"]+1 %>조 로그인 성공
+    <%= user_key %>조 로그인 성공
 
-    <a href="/login/logout_process/<%= db_data[0]['user_key'] %>">로그아웃</a>
+    <a href="/login/logout_process/<%= user_key %>">로그아웃</a>
     <br>
     <a href="/">메인</a>
     <a href="/log">로그</a>
@@ -24,6 +24,7 @@
     <input type="time" id="end_time">
 
     <button onclick="log_search()">검색</button>
+
 
     <table border="1">
         <tr>
@@ -89,35 +90,42 @@
         let page = Number("<%= currentPage %>");
         let page_cnt = Number("<%= cnt %>");
 
-        startPage = ((page-1)/5)* 5+1;
+        startPage = ((page-1)/5)* 5+1 -2;
         endPage = startPage + 5;
 
         if(endPage > page_cnt+1) {
             endPage=page_cnt+1;
             startPage=page-2;
         }
+        if(startPage < 1) {
+            startPage = 1;
+            endPage = page+5;
+        }
+        if(endPage > page_cnt){
+            endPage = page_cnt+1
+        }
 
         let inner = ``;
         if (startPage > 1){
-            inner += `<a href="/log?page=1">처음 페이지</a> `;
+            inner += `<a href="?page=1">처음 페이지</a> `;
         }
         if (page > 1){
-            inner += `<a href="/log?page=${page-1}">이전</a> `;
+            inner += `<a href="?page=${page-1}">이전</a> `;
         }
 
         for(let i=startPage; i<endPage; i++){
             if(i == page){
-                inner += `<a href="/log?page=${i}"><b>${i}</b></a> `;
+                inner += `<a href="?page=${i}"><b>${i}</b></a> `;
             } else{
-                inner += `<a href="/log?page=${i}">${i}</a> `;
+                inner += `<a href="?page=${i}">${i}</a> `;
             }
         }
 
         if (page < page_cnt){
-            inner += `<a href="/log?page=${page+1}">다음</a> `;
+            inner += `<a href="?page=${page+1}">다음</a> `;
         }
         if (endPage < page_cnt){
-            inner += `<a href="/log?page=${page_cnt}">마지막페이지</a> `;
+            inner += `<a href="?page=${page_cnt}">마지막페이지</a> `;
         }
         paging.innerHTML = inner;
     </script>
