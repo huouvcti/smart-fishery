@@ -8,7 +8,7 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
 const dbOption = {
-    host: process.env.HOST,
+    host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     database: process.env.DB,
     user: process.env.DB_USER,
