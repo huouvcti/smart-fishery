@@ -7,18 +7,18 @@ const sensorDAO = require('../model/sensorDAO');
 const location_login = "<script>alert(`로그인페이지로 이동`); location.href='/login';</script>";
 
 const main = async (req, res) => {
-   
     if(req.session.user_key){
         const parameters = {
             user_key: req.session.user_key,
             url: process.env.HOST + ":" + process.env.S_PORT
         }
-        
         res.render('../views/sensor', {parameters});
     } else{
         res.send(location_login);
     }
 }
+
+
 
 const send = async (req, res) => {
     if(req.session.user_key){
@@ -36,6 +36,7 @@ const send = async (req, res) => {
 const log = async (req, res) => {
     if(req.session.user_key){
         // 페이징
+        // 출처: 해양 ITRC 코드
         let currentPage = req.query.page;
         const pageSize = 20;
         const page = paging(currentPage, pageSize);
@@ -51,8 +52,7 @@ const log = async (req, res) => {
             start_date: (req.query.start == undefined || req.query.start == "") ? "1970-01-01" : req.query.start,
             end_date: (req.query.end == undefined || req.query.end == "") ? "3000-01-01" : req.query.end
         }
-
-
+        
         currentPage = page.currentPage;
 
         const pageCnt = await sensorDAO.log_page_cnt(parameters);

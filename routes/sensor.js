@@ -15,3 +15,5 @@ router.get("/log", sensorCtrl.log);
 
 
 module.exports = router;
+
+

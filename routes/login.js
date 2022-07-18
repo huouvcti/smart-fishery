@@ -8,7 +8,10 @@ router.get("/", loginCtrl.login);
 
 router.post("/process", loginCtrl.loginProcess);
 
+router.get("/logout_process", loginCtrl.logout);
 
-router.get("/logout_process/:user_key", loginCtrl.logout);
 
 module.exports = router;
+
+
+

@@ -16,9 +16,9 @@
 </head>
 <body>
     <h1>sensor page</h1>
-    <%= parameters.user_key+1 %>조 로그인 성공
+    <%= parameters.user_key %>조 로그인 성공
 
-    <a href="/login/logout_process/<%= parameters.user_key %>">로그아웃</a>
+    <a href="/login/logout_process">로그아웃</a>
     <br>
     <a href="/">메인</a>
     <a href="/log">로그</a>
@@ -69,7 +69,7 @@
         </div>
       </figure>
     
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    
 
 <!-- 제어 버튼 -->
 <script>
@@ -91,9 +91,12 @@
         }
     }
 </script>
+
+
     
 
 <!-- 차트 -->
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/series-label.js"></script>
 <script>
@@ -247,11 +250,11 @@
     console.log("<%= parameters.url %>");
     let url = "<%= parameters.url %>"+"/sensor";
 
-    let sensor_data;
-
     const socket = io.connect(url, {
         transports: ['websocket']
     });
+
+    
     const user_key = "<%= parameters.user_key %>";
 
     socket.emit('join', user_key);
@@ -259,6 +262,7 @@
 
 
     socket.on('sensor_update', function (data) {
+
         document.getElementById("PH_last").innerText = data["PH"];
         document.getElementById("RTD_last").innerText = data["RTD"];
         document.getElementById("EC_last").innerText = data["EC"];

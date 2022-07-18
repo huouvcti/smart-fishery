@@ -6,7 +6,6 @@ const express = require('express');
 const app = express();
 
 const session = require('express-session');
-
 const {sessionStore} = require('./config/dbconn');
 
 const path = require('path');
@@ -31,7 +30,7 @@ app.use('/public', express.static(__dirname +'/public'));
 
 app.use(session({
     secret: process.env.SECRET_KEY, // 암호화
-    resave: false,                  // 세션을 언제자 저장
+    resave: false,                  // 세션을 언제나 저장
     saveUninitialized: true,        // 세션이 저장되기 전 uninitialized 상태로 미리 만들어 저장
     store: sessionStore,
     cookie: {
@@ -39,7 +38,7 @@ app.use(session({
     }
 }));
 
-
+// app.use("/", mainRouter)
 
 app.use("/", sensorRouter);
 
