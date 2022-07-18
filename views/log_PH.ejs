@@ -10,7 +10,7 @@
     <h1>log page</h1>
     <%= user_key %>조 로그인 성공
 
-    <a href="/login/logout_process/<%= user_key %>">로그아웃</a>
+    <a href="/login/logout_process">로그아웃</a>
     <br>
     <a href="/">메인</a>
     <a href="/log">로그</a>
@@ -30,27 +30,15 @@
         <tr>
             <th>no</th>
             <th>PH</th>
-            <th>RTD</th>
-            <th>EC</th>
-            <th>DO</th>
             <th>date</th>
         </tr>
         <% for(let i=0; i<db_data.length; i++){ %>
             <tr>
                 <td> 
-                    <%= db_data[i]["sensor_key"] %>
+                    <%= db_data[i]["PH_key"] %>
                 </td>
                 <td> 
                     <%= db_data[i]["PH"] %>
-                </td>
-                <td> 
-                    <%= db_data[i]["RTD"] %>
-                </td>
-                <td> 
-                    <%= db_data[i]["EC"] %>
-                </td>
-                <td> 
-                    <%= db_data[i]["DO"] %>
                 </td>
                 <td> 
                     <%= db_data[i]["date"] %>

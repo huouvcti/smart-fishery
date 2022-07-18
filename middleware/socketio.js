@@ -8,9 +8,9 @@ const socketio = (server) => {
     const io = SocketIO(server, { path: '/socket.io' });
 
     // namespace
-    const sensor = io.of('/sensor');
+    // const sensor = io.of('/sensor');
 
-    sensor.on('connection',  async (socket) => {
+    io.on('connection',  async (socket) => {
         let room = "";
     
         console.log("sensor 접속");
@@ -30,26 +30,60 @@ const socketio = (server) => {
 
             socket.join(room)
             console.log(room + " join")
+
+            parameters = {
+                user_key: room
+            }
+            const data_PH = await sensorDAO.before_PH(parameters);
+            const data_RTD = await sensorDAO.before_RTD(parameters);
+            const data_SALT = await sensorDAO.before_SALT(parameters);
+            const data_DO = await sensorDAO.before_DO(parameters);
+            await socket.emit("sensor_before_PH", data_PH)
+            await socket.emit("sensor_before_RTD", data_RTD)
+            await socket.emit("sensor_before_SALT", data_SALT)
+            await socket.emit("sensor_before_DO", data_DO)
         })
 
 
-        socket.on('sensor_send', async (data) =>{ 
-            const insert_db = await sensorDAO.insert(data)
-            const sensor_key = await insert_db.insertId
-            
-            const parameters = {
-                sensor_key: sensor_key
-            }
-            const db_data =  await sensorDAO.update(parameters);
-            console.log(db_data);
 
-            sensor.in(room).emit('sensor_update', db_data[0]);
+
+        socket.on('sensor_send', async (data) =>{
+            data.user_key = room;
+            console.log(data);
+            if(parseFloat(data.PH) != 0){
+                await sensorDAO.insert_PH(data);
+                data.PH = parseFloat(data.PH);
+            } else{
+                data.PH = null;
+            }
+
+            if(parseFloat(data.RTD) > 0){
+                await sensorDAO.insert_RTD(data);
+                data.RTD = parseFloat(data.RTD);
+            } else{
+                data.RTD = null;
+            }
+
+            if(parseFloat(data.SALT) > 0){  // 임의
+                await sensorDAO.insert_SALT(data);
+                data.SALT = parseFloat(data.SALT);
+            } else{
+                data.SALT = null;
+            }
+            
+            if(parseFloat(data.DO) < 30){
+                await sensorDAO.insert_DO(data);
+                data.DO = parseFloat(data.DO);
+            } else{
+                data.DO = null;
+            }
+
+            console.log(data);
+            io.in(room).emit('sensor_update', data);
         })
 
 
     });
-
-    app.set("io_sensor", sensor);
  };
 
 module.exports = {socketio}
