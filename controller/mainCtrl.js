@@ -1,23 +1,21 @@
 "use strict"
 
 const main = async (req, res) => {
-
+    let user_info = {}
     if(req.session.user_key){
-        const user_info = {
-            user_key: req.session.user_key
+        user_info.user_key = req.session.user_key;
+        const parameters = {
+            user_key: req.session.user_key,
+            url: process.env.HOST + ":" + process.env.S_PORT
         }
-        res.render('../views/main', {user_info})
+        res.render('../views/main', {parameters})
     } else{
-        res.send("<script>alert(`로그인페이지로 이동`); location.href='/login';</script>");
+        res.render('../views/intro')
     }
 }
 
 
-const test = async (req, res) => {
-    res.render('../views/socketTest');
-}
 
 module.exports = {
-    main,
-    test
+    main
 }

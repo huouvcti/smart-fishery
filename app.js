@@ -10,7 +10,10 @@ const {sessionStore} = require('./config/dbconn');
 
 const path = require('path');
 
-const main = require("./routes/main");
+const mainRouter = require("./routes/main");
+
+const introRouter = require("./routes/intro");
+
 const loginRouter = require("./routes/login");
 const sensorRouter = require("./routes/sensor");
 
@@ -20,6 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.engine('ejs', require('ejs').__express)
+
+app.use('/views/script', express.static(__dirname +'/views/script'))
+app.use('/views/css', express.static(__dirname +'/views/css'))
+app.use('/views/section', express.static(__dirname +'/views/section'))
 
 app.use('/public', express.static(__dirname +'/public'));
 
@@ -38,9 +46,11 @@ app.use(session({
     }
 }));
 
-// app.use("/", mainRouter)
+app.use("/", mainRouter)
 
-app.use("/", sensorRouter);
+app.use("/intro", introRouter);
+
+app.use("/sensor", sensorRouter);
 
 app.use("/login", loginRouter);
 

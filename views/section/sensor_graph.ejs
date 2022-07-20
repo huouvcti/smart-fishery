@@ -1,0 +1,378 @@
+
+
+
+
+<!-- 제어 버튼 view -->
+<div class="ctrl_section">
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">순환펌프</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn1">
+            <label class="ctrl_view" for="btn1" onClick="ctrl_btn(0)"></label>
+        </div>
+    </div>
+
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">히터</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn2">
+            <label class="ctrl_view" for="btn2" onClick="ctrl_btn(1)"></label>
+        </div>
+    </div>
+
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">산소발생기</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn3">
+            <label class="ctrl_view" for="btn3" onClick="ctrl_btn(2)"></label>
+        </div>
+    </div>
+
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">LED 조명</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn4">
+            <label class="ctrl_view" for="btn4" onClick="ctrl_btn(3)"></label>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<!-- 차트 view -->
+<div id="chart_section">
+    <div class="chart_wrapper">
+        <div>
+            <p id="disconn_PH" class="disconn">disconnected</p>
+            <div class="container-fluid" id="container_PH"></div>
+        </div>
+        <div class="sensor_last">
+            <h3>PH</h3>
+            <p id="PH_last" >none</p>
+        </div>
+    </div>
+
+    <div class="chart_wrapper">
+        <div>
+            <p id="disconn_RTD" class="disconn">disconnected</p>
+            <div class="container-fluid" id="container_RTD"></div>
+        </div>
+        <div class="sensor_last">
+            <h3>RTD</h3>
+            <p id="RTD_last">none</p>
+        </div>
+    </div>
+  
+    <div class="chart_wrapper">
+        <div>
+            <p id="disconn_SALT" class="disconn">disconnected</p>
+            <div class="container-fluid" id="container_SALT"></div>
+        </div>
+        <div class="sensor_last">
+            <h3>SALT</h3>
+            <p id="SALT_last">none</p>
+        </div>
+    </div>
+    <div class="chart_wrapper">
+        <div>
+            <p id="disconn_DO" class="disconn">disconnected</p>
+            <div class="container-fluid" id="container_DO"></div>
+        </div>
+        <div class="sensor_last">
+            <h3>DO</h3>
+            <p id="DO_last">none</p>
+        </div>
+    </div>
+
+</div>
+  
+
+
+
+
+  
+<!-- 제어 버튼 -->
+<script>
+let ctrl_name = ["pump", "heater", "o2", "led"];
+function ctrl_btn(type){
+    let checkbox = document.getElementsByClassName("ctrl_checkbox")[type];
+
+    console.log(checkbox.checked);
+    
+    if(checkbox.checked == false){
+        // on
+        socket.emit('ctrl_on', ctrl_name[type]);
+    } else{
+        // off
+        socket.emit('ctrl_off', ctrl_name[type]);
+    }
+}
+</script>
+
+
+<!-- socket -->
+<script src="/socket.io/socket.io.js"></script>
+
+
+
+<!-- 차트 -->
+
+<script>
+console.log("<%=parameters.url%>");
+let url = "<%= parameters.url %>";
+
+const user_key = "<%= parameters.user_key %>";
+
+const socket = io.connect(url, {
+    transports: ['websocket']
+});
+
+
+
+socket.emit('join', user_key);
+
+
+let chart_PH;
+let chart_RTD;
+let chart_SALT;
+let chart_DO;
+
+let PH_data = [];
+let RTD_data = [];
+let SALT_data = [];
+let DO_data = [];
+
+Highcharts.setOptions({
+    global: {
+        useUTC: false
+    }
+});
+
+socket.on('sensor_before_PH', async (data) => {
+    for(i=0; i<data.length; i++){
+        let temp = await {y: data[i]['PH'], x: new Date(data[i].date)};
+        await PH_data.unshift(temp);
+    }
+    console.log(PH_data);
+
+    chart_PH =  await new Highcharts.Chart({
+        chart: {
+            renderTo: 'container_PH',
+            defaultSeriesType: 'spline',
+        },
+        title: {
+            text: '    '
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,    
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: '.',
+            }
+        },
+        tooltip:{
+            valueSuffix: ''
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            animation: true,
+            name: 'PH',
+            data: PH_data
+        }]
+    });
+});
+
+socket.on('sensor_before_RTD', async (data) => {
+    for(i=0; i<data.length; i++){
+        let temp = await {y: data[i]['RTD'], x: new Date(data[i].date)};
+        await RTD_data.unshift(temp);
+        
+    }
+    console.log(RTD_data);
+
+    chart_RTD = await new Highcharts.Chart({
+        chart: {
+            renderTo: 'container_RTD',
+            defaultSeriesType: 'spline',
+        },
+        title: {
+            text: '    '
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,    
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: '°C',
+            }
+        },
+        tooltip:{
+            valueSuffix: '°C'
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            animation: true,
+            name: 'RTD',
+            data: RTD_data
+        }]
+    });
+});
+
+socket.on('sensor_before_SALT', async (data) => {
+    for(i=0; i<data.length; i++){
+        let temp = await {y: data[i]['SALT'], x: new Date(data[i].date)};
+        await SALT_data.unshift(temp);
+    }
+
+    chart_SALT = await new Highcharts.Chart({
+        chart: {
+            renderTo: 'container_SALT',
+            defaultSeriesType: 'spline',
+        },
+        title: {
+            text: '    '
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,    
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: 'psu',
+            }
+        },
+        tooltip:{
+            valueSuffix: 'psu'
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            animation: true,
+            name: 'SALT',
+            data: SALT_data
+        }]
+    });
+});
+
+socket.on('sensor_before_DO', async (data) => {
+    for(i=0; i<data.length; i++){
+        let temp = await {y: data[i]['DO'], x: new Date(data[i].date)};
+        await DO_data.unshift(temp);
+    }
+
+    chart_DO = await new Highcharts.Chart({
+        chart: {
+            renderTo: 'container_DO',
+            defaultSeriesType: 'spline',
+        },
+        title: {
+            text: '    '
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150,    
+        },
+        yAxis: {
+            minPadding: 0.2,
+            maxPadding: 0.2,
+            title: {
+                text: 'ppm',
+            }
+        },
+        tooltip:{
+            valueSuffix: 'ppm'
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            animation: true,
+            name: 'DO',
+            data: DO_data
+        }]
+    });
+})
+</script>
+
+
+
+
+
+<script>
+socket.on('sensor_update', (data) => {
+    document.getElementById("PH_last").innerText = data["PH"];
+    document.getElementById("RTD_last").innerText = data["RTD"];
+    document.getElementById("SALT_last").innerText = data["SALT"];
+    document.getElementById("DO_last").innerText = data["DO"];
+
+    const date = new Date();
+
+    let shift_PH = (chart_PH.series[0].data.length > 20);
+    let shift_RTD = (chart_RTD.series[0].data.length > 20);
+    let shift_SALT = (chart_SALT.series[0].data.length > 20);
+    let shift_DO = (chart_DO.series[0].data.length > 20);
+
+
+
+    if(data["PH"] === null){
+        document.getElementById("disconn_PH").style.opacity = "100%";
+    } else {
+        document.getElementById("disconn_PH").style.opacity = "0%";
+        chart_PH.series[0].addPoint({
+            x: date,
+            y: data["PH"],
+            color:"#000",
+        }, true, shift_PH);
+    }
+
+    
+
+    if(data["RTD"] === null){
+        document.getElementById("disconn_RTD").style.opacity = "100%";
+    } else {
+        document.getElementById("disconn_RTD").style.opacity = "0%";
+        chart_RTD.series[0].addPoint({
+            x: date,
+            y: data["RTD"],
+            color:"#000",
+        }, true, shift_RTD);
+    }
+
+    if(data["SALT"] === null){
+        document.getElementById("disconn_SALT").style.opacity = "100%";
+    } else {
+        document.getElementById("disconn_SALT").style.opacity = "0%";
+        chart_SALT.series[0].addPoint({
+            x: date,
+            y: data["SALT"],
+            color:"#000",
+        }, true, shift_SALT);
+    }
+
+    if(data["DO"] === null){
+        document.getElementById("disconn_DO").style.opacity = "100%";
+    } else {
+        document.getElementById("disconn_DO").style.opacity = "0%";
+        chart_DO.series[0].addPoint({
+            x: date,
+            y: data["DO"],
+            color:"#000",
+        }, true, shift_DO);
+    }
+    
+})
+</script>

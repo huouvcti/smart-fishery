@@ -1,14 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- <html xmlns="http://www.w3.org/1999/xhtml"> -->
+    <html lang="en">
 <head>
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>main page</title>
+	<title>fullPage.js A simple Demo</title>
+
+
+	<link rel="stylesheet" type="text/css" href="/views/css/jquery.fullPage.css" />
+	<link rel="stylesheet" type="text/css" href="/views/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/views/css/sensor_graph.css" />
+
+    
+    
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+    
+	<script type="text/javascript" src="/views/script/scrolloverflow.js"></script>
+	<script type="text/javascript" src="/views/script/jquery.fullPage.js"></script>
+
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#fullpage').fullpage({
+				sectionsColor: ['#f2f2f2', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff', '#4BBFC3', '#000']
+			});
+		});
+	</script>
+
 </head>
 <body>
-    <%= user_info.user_key+1 %>조 로그인 성공
 
-    <a href="/login/logout_process/<%= user_info.user_key %>">로그아웃</a>
+<div id="fullpage">
+	<div class="section active" id="section0">
+        intro 
+
+        <a href="/login/logout_process">로그아웃</a>
+    </div>
+
+	<div class="section" id="section1">
+        <h1>센서 모니터링</h1>
+        <%-include('./section/sensor_graph.ejs') %>
+    </div>
+	
+    <div class="section" id="section2">
+        log1
+    </div>
+
+	<div class="section" id="section3">
+        log2
+    </div>
+
+    <div class="section" id="section3">
+        log3
+    </div>
+
+    <div class="section" id="section3">
+        log4
+    </div>
+
+    <div class="section" id="section3">
+        copyright
+    </div>
+</div>
+
 </body>
 </html>

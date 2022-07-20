@@ -13,7 +13,7 @@ const main = async (req, res) => {
             url: process.env.HOST + ":" + process.env.S_PORT
         }
         
-        res.render('../views/sensor', {parameters});
+        res.render('../views/sensor11111', {parameters});
     } else{
         res.send(location_login);
     }
