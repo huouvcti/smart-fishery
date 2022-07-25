@@ -1,44 +1,7 @@
 
 
+<div id="sensor">
 
-
-<!-- 제어 버튼 view -->
-<div class="ctrl_section">
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">순환펌프</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn1">
-            <label class="ctrl_view" for="btn1" onClick="ctrl_btn(0)"></label>
-        </div>
-    </div>
-
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">히터</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn2">
-            <label class="ctrl_view" for="btn2" onClick="ctrl_btn(1)"></label>
-        </div>
-    </div>
-
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">산소발생기</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn3">
-            <label class="ctrl_view" for="btn3" onClick="ctrl_btn(2)"></label>
-        </div>
-    </div>
-
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">LED 조명</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn4">
-            <label class="ctrl_view" for="btn4" onClick="ctrl_btn(3)"></label>
-        </div>
-    </div>
-</div>
-
-
-<br>
 <!-- 차트 view -->
 <div id="chart_section">
     <div class="chart_wrapper">
@@ -83,6 +46,44 @@
             <p id="DO_last">none</p>
         </div>
     </div>
+
+</div>
+
+<!-- 제어 버튼 view -->
+<div class="ctrl_section">
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">순환펌프</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn1">
+            <label class="ctrl_view" for="btn1" onClick="ctrl_btn(0)"></label>
+        </div>
+    </div>
+
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">히터</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn2">
+            <label class="ctrl_view" for="btn2" onClick="ctrl_btn(1)"></label>
+        </div>
+    </div>
+
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">산소발생기</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn3">
+            <label class="ctrl_view" for="btn3" onClick="ctrl_btn(2)"></label>
+        </div>
+    </div>
+
+    <div class="ctrl_wrapper">
+        <p class="ctrl_title">LED 조명</p>
+        <div class="ctrl">
+            <input type="checkbox" class='ctrl_checkbox' id="btn4">
+            <label class="ctrl_view" for="btn4" onClick="ctrl_btn(3)"></label>
+        </div>
+    </div>
+</div>
+
 
 </div>
   
@@ -153,7 +154,7 @@ socket.on('sensor_before_PH', async (data) => {
         let temp = await {y: data[i]['PH'], x: new Date(data[i].date)};
         await PH_data.unshift(temp);
     }
-    console.log(PH_data);
+
 
     chart_PH =  await new Highcharts.Chart({
         chart: {
@@ -194,7 +195,6 @@ socket.on('sensor_before_RTD', async (data) => {
         await RTD_data.unshift(temp);
         
     }
-    console.log(RTD_data);
 
     chart_RTD = await new Highcharts.Chart({
         chart: {

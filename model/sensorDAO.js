@@ -111,9 +111,20 @@ const before_DO = (parameters) =>{
 
 
 
-const log_PH = (parameters) =>{
+const log = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor_PH WHERE (user_key=?) ORDER BY date DESC LIMIT ?, ?`, [parameters.user_key, parameters.offset, parameters.limit], (err, db_data) => {
+        db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM ${parameters.table} WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC LIMIT ?, ?`, [ parameters.user_key, parameters.date_start, parameters.date_end, parameters.offset, parameters.limit], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+const log_cnt = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT COUNT(*) as cnt FROM ${parameters.table} WHERE user_key=? AND (date > ? AND date < ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -123,9 +134,9 @@ const log_PH = (parameters) =>{
     })
 }
 
-const log_PH_cnt = (parameters) =>{
+const log_down = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT COUNT(*) as cnt FROM sensor_PH WHERE user_key=?;`, [parameters.user_key], (err, db_data) => {
+        db.query(`SELECT ${parameters.sensor}_key, ${parameters.sensor}, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM ${parameters.table} WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -134,10 +145,98 @@ const log_PH_cnt = (parameters) =>{
         })
     })
 }
+
+const log_del = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`DELETE FROM ${parameters.table} WHERE (user_key=?) AND (date > ? AND date < ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+// const log_RTD = (parameters) =>{
+//     return new Promise((resolve, reject) =>{
+//         db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor_RTD WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC LIMIT ?, ?`, [parameters.user_key, parameters.date_start, parameters.date_end, parameters.offset, parameters.limit], (err, db_data) => {
+//             if(err) {
+//                 reject(err);
+//             } else {
+//                 resolve(db_data);
+//             }
+//         })
+//     })
+// }
+// const log_RTD_cnt = (parameters) =>{
+//     return new Promise((resolve, reject) =>{
+//         db.query(`SELECT COUNT(*) as cnt FROM sensor_RTD WHERE user_key=? AND (date > ? AND date < ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+//             if(err) {
+//                 reject(err);
+//             } else {
+//                 resolve(db_data);
+//             }
+//         })
+//     })
+// }
+
+// const log_SALT = (parameters) =>{
+//     return new Promise((resolve, reject) =>{
+//         db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor_SALT WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC LIMIT ?, ?`, [parameters.user_key, parameters.date_start, parameters.date_end, parameters.offset, parameters.limit], (err, db_data) => {
+//             if(err) {
+//                 reject(err);
+//             } else {
+//                 resolve(db_data);
+//             }
+//         })
+//     })
+// }
+// const log_SALT_cnt = (parameters) =>{
+//     return new Promise((resolve, reject) =>{
+//         db.query(`SELECT COUNT(*) as cnt FROM sensor_SALT WHERE user_key=? AND (date > ? AND date < ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+//             if(err) {
+//                 reject(err);
+//             } else {
+//                 resolve(db_data);
+//             }
+//         })
+//     })
+// }
+
+// const log_DO = (parameters) =>{
+//     return new Promise((resolve, reject) =>{
+//         db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor_DO WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC LIMIT ?, ?`, [parameters.user_key, parameters.date_start, parameters.date_end, parameters.offset, parameters.limit], (err, db_data) => {
+//             if(err) {
+//                 reject(err);
+//             } else {
+//                 resolve(db_data);
+//             }
+//         })
+//     })
+// }
+// const log_DO_cnt = (parameters) =>{
+//     return new Promise((resolve, reject) =>{
+//         db.query(`SELECT COUNT(*) as cnt FROM sensor_DO WHERE user_key=? AND (date > ? AND date < ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+//             if(err) {
+//                 reject(err);
+//             } else {
+//                 resolve(db_data);
+//             }
+//         })
+//     })
+// }
+
+
+
+
+
+
+
+
 
 
 module.exports = {
-    //insert,
     insert_PH,
     insert_RTD,
     insert_SALT,
@@ -148,7 +247,8 @@ module.exports = {
     before_SALT,
     before_DO,
 
-
-    log_PH,
-    log_PH_cnt
+    log,
+    log_cnt,
+    log_down,
+    log_del
 }

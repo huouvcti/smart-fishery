@@ -12,7 +12,8 @@ const path = require('path');
 
 const mainRouter = require("./routes/main");
 
-const introRouter = require("./routes/intro");
+const logRouter = require("./routes/log");
+
 
 const loginRouter = require("./routes/login");
 const sensorRouter = require("./routes/sensor");
@@ -48,9 +49,10 @@ app.use(session({
 
 app.use("/", mainRouter)
 
-app.use("/intro", introRouter);
 
 app.use("/sensor", sensorRouter);
+
+app.use("/log", logRouter)
 
 app.use("/login", loginRouter);
 

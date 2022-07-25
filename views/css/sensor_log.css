@@ -1,0 +1,28 @@
+.log_wrapper{
+	/* height: 200px;
+	overflow-y: scroll; */
+
+}
+table{
+	width: 50%;
+	
+	margin: 0 auto;
+	font-size: 130%;
+	text-align: center;
+}
+table tr{
+	width: 50px;
+	height: 50px;
+
+}
+table th{
+	width: 50px;
+	height: 50px;
+
+}
+
+table td{
+	width: 50px;
+	height: 50px;
+
+}

@@ -8,14 +8,22 @@
 }
 
 
+#sensor{
+    position: absolute;
+    top: 25%;
+    width: 100%;
+    height: 65%;
+    display: grid;
+    grid-template-columns: 75% 25%;
+}
+
 
 
 #chart_section{
-    width: 80%;
-    height: 70%;
-    margin: 0 10%;
+    width: 90%;
+    height: 97.5%;
+    margin: 0 0 0 5%;
     position: relative;
-    top: 5%;
     display: grid;
     grid-template-columns: 46% 46%;
     grid-template-rows: 50% 50%;
@@ -27,6 +35,8 @@
     height: 90%;
     padding: 5% 0 0 0 ;
     background-color: #fff;
+    box-shadow: 5px 5px 5px grey;
+    border-radius: 0 0 10% 0 ;
     overflow: hidden;
     display: grid;
     grid-template-columns: 3fr 1fr;
@@ -58,12 +68,12 @@
 
 
 .ctrl_section{
-    position: absolute;
-    top: 10%;
-    width: 100%;
+    width: 70%;
+    height: 100%;
+
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    border: 3px solid #000;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    border: 5px solid #000;
 }
 
 .ctrl_wrapper{
@@ -74,6 +84,7 @@
 
 .ctrl_title{
     display: inline-block;
+    margin: auto;
     text-align: center;
 }
 

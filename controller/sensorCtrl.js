@@ -52,14 +52,14 @@ const log = async (req, res) => {
 
         currentPage = page.currentPage;
 
-        const pageCnt = await sensorDAO.log_PH_cnt(parameters);
-        const cnt = parseInt(pageCnt[0].cnt / pageSize) + 1;
+        //const pageCnt = await sensorDAO.log_PH_cnt(parameters);
+        // cnt = parseInt(pageCnt[0].cnt / pageSize) + 1;
 
         const db_data =  await sensorDAO.log_PH(parameters);
         
-        console.log(cnt);
+        //console.log(cnt);
 
-        res.render('../views/log_PH', {user_key, db_data, currentPage, cnt})
+        res.render('../views/log_PH', {db_data})
     } else{
         res.send(location_login);
     }

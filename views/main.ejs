@@ -11,6 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="/views/css/jquery.fullPage.css" />
 	<link rel="stylesheet" type="text/css" href="/views/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/views/css/sensor_graph.css" />
+    <link rel="stylesheet" type="text/css" href="/views/css/sensor_log.css" />
 
     
     
@@ -29,15 +30,60 @@
 
 
 	<script type="text/javascript">
+        pageTitle = function(){
+            const page = window.location.hash;
+            let title = document.getElementById("menu");
+            switch(page){
+                case "#page1":
+                    title.innerText = "양식장";
+                    break;
+                case "#page2":
+                    title.innerText = "센서 모니터링";
+                    break;
+                case "#page3":
+                    title.innerText = "로그";
+                    break;
+                case "#page4":
+                    title.innerText = "개발자";
+                    break;
+            }
+        }
+
 		$(document).ready(function() {
 			$('#fullpage').fullpage({
-				sectionsColor: ['#f2f2f2', '#4BBFC3', '#7BAABE', 'whitesmoke', '#ccddff', '#4BBFC3', '#000']
+                anchors: ['page1', 'page2', 'page3', 'page4'],
+				sectionsColor: ['#f2f2f2', '#ccddff', '#7BAABE', 'whitesmoke', '#ccddff', '#4BBFC3', '#000'],
+                slidesNavigation: true
 			});
+            pageTitle();
+
+            PH_pageMove();
+            RTD_pageMove();
+            SALT_pageMove();
+            DO_pageMove();
+            
 		});
+
+        $(window).bind('wheel', pageTitle);
+        
 	</script>
+
+<script>
+
+</script>
 
 </head>
 <body>
+
+<div id="menu">양식장</div>
+<a href="#page1" id="top">top</a>
+
+<script>
+    document.getElementById("top").addEventListener("click", function(){
+        let title = document.getElementById("menu");
+        title.innerText = "양식장";
+    })
+</script>
 
 <div id="fullpage">
 	<div class="section active" id="section0">
@@ -51,12 +97,21 @@
         <%-include('./section/sensor_graph.ejs') %>
     </div>
 	
-    <div class="section" id="section2">
-        log1
-    </div>
+	<div class="section" id="section2">
+        <div class="slide" id="PH" data-anchor="PH">
+            <%-include('./section/log_PH.ejs') %>
+		</div>
 
-	<div class="section" id="section3">
-        log2
+	    <div class="slide" id="RTD" data-anchor="RTD">
+            <%-include('./section/log_RTD.ejs') %>
+		</div>
+
+		<div class="slide" id="SALT" data-anchor="SALT">
+            <%-include('./section/log_SALT.ejs') %>
+		</div>
+        <div class="slide" id="DO" data-anchor="DO">
+            <%-include('./section/log_DO.ejs') %>
+		</div>
     </div>
 
     <div class="section" id="section3">
@@ -71,6 +126,8 @@
         copyright
     </div>
 </div>
+
+
 
 </body>
 </html>
