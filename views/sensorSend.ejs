@@ -28,7 +28,7 @@
         const socket = io.connect(url, {
             transports: ['websocket']
         });
-        socket.emit('join', user_key);
+        socket.emit('join', {room: user_key});
 
         let sensor;
         function sensor_click(){
