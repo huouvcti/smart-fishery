@@ -136,7 +136,7 @@ const log_cnt = (parameters) =>{
 
 const log_down = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT ${parameters.sensor}_key, ${parameters.sensor}, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM ${parameters.table} WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`SELECT ${parameters.sensor}_key as no, ${parameters.sensor}, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM ${parameters.table} WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {

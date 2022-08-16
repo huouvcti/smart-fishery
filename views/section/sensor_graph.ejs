@@ -1,90 +1,96 @@
 
 
+
 <div id="sensor">
 
-<!-- 차트 view -->
-<div id="chart_section">
-    <div class="chart_wrapper">
-        <div>
-            <p id="disconn_PH" class="disconn">disconnected</p>
-            <div class="container-fluid" id="container_PH"></div>
+
+    <!-- 차트 view -->
+    <div id="chart_section">
+        <div class="chart_wrapper">
+            <div>
+                <p id="disconn_PH" class="disconn">disconnected</p>
+                <div class="container-fluid" id="container_PH"></div>
+            </div>
+            <div class="sensor_last">
+                <h3>PH</h3>
+                <p id="PH_last" style="margin-top: 50px;" >none</p>
+            </div>
         </div>
-        <div class="sensor_last">
-            <h3>PH</h3>
-            <p id="PH_last" >none</p>
+
+        <div class="chart_wrapper">
+            <div>
+                <p id="disconn_RTD" class="disconn">disconnected</p>
+                <div class="container-fluid" id="container_RTD"></div>
+            </div>
+            <div class="sensor_last">
+                <h3>RTD</h3>
+                <p id="RTD_last" style="margin-top: 50px;">none</p>
+            </div>
         </div>
+    
+        <div class="chart_wrapper">
+            <div>
+                <p id="disconn_SALT" class="disconn">disconnected</p>
+                <div class="container-fluid" id="container_SALT"></div>
+            </div>
+            <div class="sensor_last">
+                <h3>SALT</h3>
+                <p id="SALT_last" style="margin-top: 50px;">none</p>
+            </div>
+        </div>
+        <div class="chart_wrapper">
+            <div>
+                <p id="disconn_DO" class="disconn">disconnected</p>
+                <div class="container-fluid" id="container_DO"></div>
+            </div>
+            <div class="sensor_last">
+                <h3>DO</h3>
+                <p id="DO_last" style="margin-top: 50px;">none</p>
+            </div>
+        </div>
+
     </div>
 
-    <div class="chart_wrapper">
-        <div>
-            <p id="disconn_RTD" class="disconn">disconnected</p>
-            <div class="container-fluid" id="container_RTD"></div>
+    <!-- 제어 버튼 view -->
+
+    
+
+    <div class="ctrl_section">
+
+        <div class="button_text">제어 버튼</div>
+
+        <div class="ctrl_wrapper">
+            <p class="ctrl_title">순환펌프</p>
+            <div class="ctrl">
+                <input type="checkbox" class='ctrl_checkbox' id="btn1">
+                <label class="ctrl_view" for="btn1" onClick="ctrl_btn(0)"></label>
+            </div>
         </div>
-        <div class="sensor_last">
-            <h3>RTD</h3>
-            <p id="RTD_last">none</p>
+
+        <div class="ctrl_wrapper">
+            <p class="ctrl_title">히터</p>
+            <div class="ctrl">
+                <input type="checkbox" class='ctrl_checkbox' id="btn2">
+                <label class="ctrl_view" for="btn2" onClick="ctrl_btn(1)"></label>
+            </div>
+        </div>
+
+        <div class="ctrl_wrapper">
+            <p class="ctrl_title">산소발생기</p>
+            <div class="ctrl">
+                <input type="checkbox" class='ctrl_checkbox' id="btn3">
+                <label class="ctrl_view" for="btn3" onClick="ctrl_btn(2)"></label>
+            </div>
+        </div>
+
+        <div class="ctrl_wrapper">
+            <p class="ctrl_title">LED 조명</p>
+            <div class="ctrl">
+                <input type="checkbox" class='ctrl_checkbox' id="btn4">
+                <label class="ctrl_view" for="btn4" onClick="ctrl_btn(3)"></label>
+            </div>
         </div>
     </div>
-  
-    <div class="chart_wrapper">
-        <div>
-            <p id="disconn_SALT" class="disconn">disconnected</p>
-            <div class="container-fluid" id="container_SALT"></div>
-        </div>
-        <div class="sensor_last">
-            <h3>SALT</h3>
-            <p id="SALT_last">none</p>
-        </div>
-    </div>
-    <div class="chart_wrapper">
-        <div>
-            <p id="disconn_DO" class="disconn">disconnected</p>
-            <div class="container-fluid" id="container_DO"></div>
-        </div>
-        <div class="sensor_last">
-            <h3>DO</h3>
-            <p id="DO_last">none</p>
-        </div>
-    </div>
-
-</div>
-
-<!-- 제어 버튼 view -->
-<div class="ctrl_section">
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">순환펌프</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn1">
-            <label class="ctrl_view" for="btn1" onClick="ctrl_btn(0)"></label>
-        </div>
-    </div>
-
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">히터</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn2">
-            <label class="ctrl_view" for="btn2" onClick="ctrl_btn(1)"></label>
-        </div>
-    </div>
-
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">산소발생기</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn3">
-            <label class="ctrl_view" for="btn3" onClick="ctrl_btn(2)"></label>
-        </div>
-    </div>
-
-    <div class="ctrl_wrapper">
-        <p class="ctrl_title">LED 조명</p>
-        <div class="ctrl">
-            <input type="checkbox" class='ctrl_checkbox' id="btn4">
-            <label class="ctrl_view" for="btn4" onClick="ctrl_btn(3)"></label>
-        </div>
-    </div>
-</div>
-
-
 </div>
   
 
@@ -102,10 +108,10 @@ function ctrl_btn(type){
     
     if(checkbox.checked == false){
         // on
-        socket.emit('ctrl_on', ctrl_name[type]);
+        socket.emit('on', ctrl_name[type]);
     } else{
         // off
-        socket.emit('ctrl_off', ctrl_name[type]);
+        socket.emit('off', ctrl_name[type]);
     }
 }
 </script>
@@ -184,7 +190,9 @@ socket.on('sensor_before_PH', async (data) => {
         series: [{
             animation: true,
             name: 'PH',
-            data: PH_data
+            data: PH_data,
+            color: '#f00'
+
         }]
     });
 });
@@ -224,7 +232,8 @@ socket.on('sensor_before_RTD', async (data) => {
         series: [{
             animation: true,
             name: 'RTD',
-            data: RTD_data
+            data: RTD_data,
+            color : '#06780e'
         }]
     });
 });
@@ -263,7 +272,8 @@ socket.on('sensor_before_SALT', async (data) => {
         series: [{
             animation: true,
             name: 'SALT',
-            data: SALT_data
+            data: SALT_data,
+            color: '#209be3'
         }]
     });
 });
@@ -302,7 +312,8 @@ socket.on('sensor_before_DO', async (data) => {
         series: [{
             animation: true,
             name: 'DO',
-            data: DO_data
+            data: DO_data,
+            color : '#461a91'
         }]
     });
 })
@@ -335,7 +346,7 @@ socket.on('sensor_update', (data) => {
         chart_PH.series[0].addPoint({
             x: date,
             y: data["PH"],
-            color:"#000",
+            color:"#FFB4BF",
         }, true, shift_PH);
     }
 
@@ -348,7 +359,7 @@ socket.on('sensor_update', (data) => {
         chart_RTD.series[0].addPoint({
             x: date,
             y: data["RTD"],
-            color:"#000",
+            color:"#8EB695",
         }, true, shift_RTD);
     }
 
@@ -359,7 +370,7 @@ socket.on('sensor_update', (data) => {
         chart_SALT.series[0].addPoint({
             x: date,
             y: data["SALT"],
-            color:"#000",
+            color:"#F2CDAF",
         }, true, shift_SALT);
     }
 
@@ -370,7 +381,7 @@ socket.on('sensor_update', (data) => {
         chart_DO.series[0].addPoint({
             x: date,
             y: data["DO"],
-            color:"#000",
+            color:"#DFC9F2",
         }, true, shift_DO);
     }
     

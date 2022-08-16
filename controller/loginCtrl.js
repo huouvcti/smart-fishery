@@ -25,7 +25,7 @@ const loginProcess = async (req, res) => {
         })
     } else{
         delete req.session.user_key;
-        res.send("<script>alert(`로그인 실패 \n\n로그인페이지로 이동`); location.href='/login';</script>");
+        res.send("<script>alert(`로그인 실패 \n\n로그인페이지로 이동`); location.href='/intro';</script>");
     }
 }
 

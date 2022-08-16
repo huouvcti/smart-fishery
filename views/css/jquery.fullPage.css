@@ -72,11 +72,13 @@ html.fp-enabled,
     width: 0;
     border-width: 38.5px 34px 38.5px 0;
     border-color: transparent #fff transparent transparent;
+    margin-left: 2%;
 }
 .fp-controlArrow.fp-next {
     right: 15px;
     border-width: 38.5px 0 38.5px 34px;
     border-color: transparent transparent transparent #fff;
+    margin-right: 2%;
 }
 .fp-scrollable {
     overflow: hidden;
@@ -125,7 +127,7 @@ html.fp-enabled,
 }
 #fp-nav ul,
 .fp-slidesNav ul {
-  margin: 0;
+  margin-left: 810px;
   padding: 0;
 }
 #fp-nav ul li,

@@ -1,27 +1,29 @@
 
 <div class="log_wrapper">
-    <input type="date" class="start_date">
-    <input type="time" class="start_time">
-     ~ 
-    <input type="date" class="end_date">
-    <input type="time" class="end_time">
+     <!-- 검색을 위한 부분 -->
+     <div class="search_part">
+        <input type="date" class="start_date">
+        <input type="time" class="start_time">
+        - 
+        <input type="date" class="end_date">
+        <input type="time" class="end_time">
 
-    <button onclick="SALT_pageMove(0)">검색</button>
+        <button class="search_btn" onclick="SALT_pageMove(0)">검색</button>
+    </div>
+  
+    <!-- 하얀선 -->
+    <hr style="width: 70%; margin-right:30%; margin-top: 2%; margin-bottom: 2%; color: #fff; border: none; border-top: 3px solid #fff; border-radius: 20%;">
+    
+    <!-- 표 그리기 -->
+    <table border="1" class="table_style"></table>
 
-    <p>검색결과</p>
-    <p class="search_start"></p>
-    ~
-    <p class="search_end"></p>
+    <!-- 이전, 다음, 다운로드, 삭제 -->
+    <center class="under_btns">
+        <button class="prev_btn" onclick="SALT_pageMove('prev')">이전</button>
+        <button class="next_btn" onclick="SALT_pageMove('next')">다음</button>
 
-    <button onclick="SALT_log_down()">다운로드</button>
-    <button onclick="SALT_log_del()">삭제</button>
-
-    <table border="1">
-
-    </table>
-    <center>
-        <button onclick="SALT_pageMove('prev')">이전</button>
-        <button onclick="SALT_pageMove('next')">다음</button>
+        <button class="download_btn" onclick="SALT_log_down()"><i class="fa fa-download"></i> &nbsp;&nbsp;&nbsp;&nbsp;다운로드</button>
+        <button class="delete_btn" onclick="SALT_log_del()"><i class="fa-regular fa-trash-can"></i> &nbsp;&nbsp;&nbsp;&nbsp;삭제</button>
     </center>
 </div>
 

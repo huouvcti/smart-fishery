@@ -34,14 +34,25 @@ const socketio = (server) => {
             parameters = {
                 user_key: room
             }
-            const data_PH = await sensorDAO.before_PH(parameters);
-            const data_RTD = await sensorDAO.before_RTD(parameters);
-            const data_SALT = await sensorDAO.before_SALT(parameters);
-            const data_DO = await sensorDAO.before_DO(parameters);
-            await socket.emit("sensor_before_PH", data_PH)
-            await socket.emit("sensor_before_RTD", data_RTD)
-            await socket.emit("sensor_before_SALT", data_SALT)
-            await socket.emit("sensor_before_DO", data_DO)
+
+            if(parameters.user_key != undefined){
+                const data_PH = await sensorDAO.before_PH(parameters);
+                const data_RTD = await sensorDAO.before_RTD(parameters);
+                const data_SALT = await sensorDAO.before_SALT(parameters);
+                const data_DO = await sensorDAO.before_DO(parameters);
+                await socket.emit("sensor_before_PH", data_PH)
+                await socket.emit("sensor_before_RTD", data_RTD)
+                await socket.emit("sensor_before_SALT", data_SALT)
+                await socket.emit("sensor_before_DO", data_DO)
+            }
+            
+        })
+
+        socket.on('on', async (data) =>{
+            io.in(room).emit('ctrl_on', data);
+        })
+        socket.on('off', async (data) =>{
+            io.in(room).emit('ctrl_off', data);
         })
 
         socket.on('sensor_send', async (data) =>{
@@ -54,7 +65,7 @@ const socketio = (server) => {
                 data.PH = null;
             }
 
-            if(parseFloat(data.RTD) > 0){
+            if(parseFloat(data.RTD) > -1023){
                 await sensorDAO.insert_RTD(data);
                 data.RTD = parseFloat(data.RTD);
             } else{
@@ -68,7 +79,7 @@ const socketio = (server) => {
                 data.SALT = null;
             }
             
-            if(parseFloat(data.DO) < 30){
+            if(parseFloat(data.DO) < 38){
                 await sensorDAO.insert_DO(data);
                 data.DO = parseFloat(data.DO);
             } else{

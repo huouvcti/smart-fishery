@@ -2,28 +2,97 @@ html {
 	overflow: auto;
 }
 
+body { margin:0 }
 
-h1 {
+/* h1 {
 	position: absolute;
 	top: 15%;
 	left: 5%;
 	color: #fff;
 	text-shadow: 1px 1px 2px #000;
-}
+} */
 
 h2{
 	position:relative;
 }
 
+.navbar{
+	position:fixed;
+	width: 100%;
+	top: 0;
+	justify-content: space-between;
+	align-items: center;
+	background-color: rgba( 0, 0, 0,  0.5 );
+	color: #000;
+	padding: 1% 6%;
+	z-index: 100;
+ }
+ 
+ .navbar_menu_btn{
+	display: inline-block; 
+	color: #fff;
+	font-size: 200%;
+	margin: 1% 0% 1%;
+ }
+ 
+ .navbar_menu_btn ul{
+	font-size: 50%;
+	display: none;
+ }
+ 
+ .navbar_menu_btn:hover ul{
+	display: block;
+ }
+ 
+ .navbar_title{
+	display: inline-block; 
+	/* display: flex; */
+	list-style: none;
+	padding-left: 0%;
+	color: #fff;
+	font-size: 40px;
+	font-weight: bold;
+	width: 20%;
+	text-align: center;
+	margin-left: 32%;
+ }
+ 
+ .navbar_logout {
+	display: inline-block; 
+	/* display: flex; */
+	list-style: none;
+	color: #fff;
+	align-items: center;
+	font-size: large;
+	margin-left: 24%;
+ }
+ 
+ .navbar_logout li {
+	display: inline-block;
+ }
+ 
+ .navbar_logoutBtn{
+	display: inline-block; 
+	background-color: #105d94;
+	border: none;
+	box-shadow: none;
+	color: #fff;
+	padding: 10%;
+	width: 150%;
+	margin-left: 40%
+ }
 
 #menu{
-	position: fixed;
-	width:100%;
-	height: 100px;
-	display: block;
-	background-color: #fff;
-	box-shadow: 5px 5px 5px #999;
-	z-index: 50;
+	display: inline-block; 
+	/* display: flex; */
+	list-style: none;
+	padding-left: 0%;
+	color: #fff;
+	font-size: 30px;
+	font-weight: bold;
+	width: 20%;
+	text-align: center;
+	margin-left: 32%;
 }
 
 #top{
@@ -32,6 +101,112 @@ h2{
 	bottom: 5%;
 	cursor: pointer;
 	z-index: 100;
+	background-color: #fff;
+	border-radius: 5em;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	font-weight: bold;
+}
+
+#top 
+
+a:link{
+	color:black;
+	text-decoration: none;
+}
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+a:hover {
+	color: black;
+	text-decoration: none;
+}
+
+#icon{
+	display: inline-block;
+	margin-top: 25px;
 }
 
 
+
+.container{
+	height: 100%;
+	width: 100%;
+  	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+  
+.text{
+	font-weight: 100;
+	font-size: 70px;
+	color: #FAFAFA;
+}
+  
+.dud{
+	color: #757575;
+}
+  
+
+
+/* 휴대폰 버전 */
+@media (max-width: 414px) {
+	.navbar{
+		position:fixed;
+		width: 100%;
+		top: 0;
+		justify-content: space-between;
+		align-items: center;
+		background-color: rgba( 0, 0, 0,  0.5 );
+		color: #000;
+		padding: 1% 6%;
+		z-index: 100;
+	}
+	 
+	.navbar_menu_btn{
+		font-size: 100%;
+		margin: 1% 0% 1%;
+	}
+	 
+	.navbar_menu_btn ul{
+		font-size: 50%;
+		display: none;
+	}
+	 
+	.navbar_menu_btn:hover ul{
+		display: block;
+	}
+	 
+	.navbar_logout {
+		display: none;
+		/* display: inline-block;  */
+		list-style: none;
+		color: #fff;
+		align-items: center;
+		font-size: large;
+		margin-left: 24%;
+	}
+	
+	.navbar_logout li {
+		display: inline-block;
+		font-size: 0%s;
+	}
+ 
+	.navbar_logoutBtn{
+		display: inline-block; 
+		padding: 10%;
+		width: 0%;
+		margin-left: 40%;
+		font-size: 50%;
+		
+	}
+
+	#menu{
+		font-size: 120%;
+		width: 30%;
+		margin-left: 29%;
+		padding: 3% 0%;
+	}
+}
