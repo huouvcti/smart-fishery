@@ -26,7 +26,7 @@ const socketio = (server) => {
         });
 
         await socket.on('join', async (data) => {
-            room = data;
+            room = data.room;
 
             socket.join(room)
             console.log(room + " join")
@@ -44,13 +44,10 @@ const socketio = (server) => {
             await socket.emit("sensor_before_DO", data_DO)
         })
 
-
-
-
         socket.on('sensor_send', async (data) =>{
             data.user_key = room;
             console.log(data);
-            if(parseFloat(data.PH) != 0){
+            if(parseFloat(data.PH) > 0){
                 await sensorDAO.insert_PH(data);
                 data.PH = parseFloat(data.PH);
             } else{

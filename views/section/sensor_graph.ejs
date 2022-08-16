@@ -130,7 +130,7 @@ const socket = io.connect(url, {
 
 
 
-socket.emit('join', user_key);
+socket.emit('join', {room: user_key});
 
 
 let chart_PH;

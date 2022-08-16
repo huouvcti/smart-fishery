@@ -33,6 +33,7 @@ const log = async (req, res) => {
 }
 
 const log_down = async (req, res) => {
+    
     const parameters = {
         user_key: req.session.user_key,
         date_start: (req.query.start == undefined) ? "1970:01:01" : req.query.start,
@@ -44,6 +45,8 @@ const log_down = async (req, res) => {
 
     const time = dayjs().format('YYYY-MM-DD-HHmmss');
 
+    // csv 파일로 다운로드
+    // 출처: 오동협 선배 2주차 세미나 ppt
     try{
         const db_data = await sensorDAO.log_down(parameters);
 

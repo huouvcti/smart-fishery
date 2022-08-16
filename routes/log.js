@@ -8,7 +8,6 @@ const logCtrl = require("../controller/logCtrl");
 router.get("/:sensor", logCtrl.log);
 
 
-
 router.get("/down/:sensor", logCtrl.log_down);
 
 router.get("/del/:sensor", logCtrl.log_del);
